@@ -1,0 +1,29 @@
+# Unity generated
+Library/
+Temp/
+Obj/
+Builds/
+Logs/
+UserSettings/
+MemoryCaptures/
+
+# Unity cache
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# Visual Studio
+.vs/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.booproj
+crashlytics-build.properties
+
+# OS
+.DS_Store
+Thumbs.db
