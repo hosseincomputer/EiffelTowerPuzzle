@@ -35,6 +35,7 @@ public class PuzzlePiece : MonoBehaviour
     {
         if (!isDragging) return;
         transform.position = ScreenToWorld(Mouse.current.position.ReadValue()) + dragOffset;
+        CheckSnap(); // snap as soon as close enough while dragging
     }
 
     void OnMouseUp()

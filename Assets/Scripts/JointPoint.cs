@@ -4,7 +4,7 @@ public class JointPoint : MonoBehaviour
 {
     public string jointType;        // e.g. "leg_top", "platform_bottom"
     public string compatibleType;   // what this can connect to
-    public float snapRadius = 0.3f;
+    public float snapRadius = 1.5f;
     public bool isConnected = false;
 
     public Quaternion localRotation => transform.localRotation;
