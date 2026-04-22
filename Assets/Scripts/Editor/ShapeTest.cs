@@ -408,6 +408,55 @@ public class ShapeTest : EditorWindow
         return m;
     }
 
+    [MenuItem("Shape Test/Create Lower Connector")]
+    public static void CreateLowerConnectors()
+    {
+        var old = GameObject.Find("Test_LowerConnectors");
+        if (old != null) DestroyImmediate(old);
+
+        var root = new GameObject("Test_LowerConnectors");
+        root.transform.position = new Vector3(0, 1f, 0f);
+        BuildLowerConnector(root, MakeFlatMat(new Color(0.72f, 0.48f, 0.22f)));
+
+        Selection.activeGameObject = root;
+        Debug.Log("Lower connector created!");
+    }
+
+    // Single compound: 6 open-front boxes in a row, sharing dividing walls
+    static void BuildLowerConnector(GameObject root, Material mat)
+    {
+        int   count = 6;
+        float boxW  = 0.8f;   // width of each cell
+        float boxH  = 1.0f;   // height (smaller)
+        float boxD  = 0.75f;  // depth front-to-back
+        float t     = 0.1f;   // wall thickness (bigger)
+        float totalW = count * boxW;
+        float startX = -totalW / 2f;
+
+        for (int i = 0; i < count; i++)
+        {
+            float cx = startX + i * boxW + boxW / 2f;
+            Vector3 c = new Vector3(cx, boxH / 2f, 0f);
+
+            // Base
+            AddBox(root, "Base" + i, mat, new Vector3(boxW, t, boxD),
+                new Vector3(cx, t / 2f, 0f));
+            // Top wall (added — closes the top)
+            AddBox(root, "Top" + i, mat, new Vector3(boxW, t, boxD),
+                new Vector3(cx, boxH - t / 2f, 0f));
+            // Back wall
+            AddBox(root, "Back" + i, mat, new Vector3(boxW, boxH, t),
+                new Vector3(cx, boxH / 2f, boxD / 2f - t / 2f));
+            // Left divider (skip on first cell — outer left wall added separately)
+            if (i == 0)
+                AddBox(root, "WallL" + i, mat, new Vector3(t, boxH, boxD),
+                    new Vector3(startX + t / 2f, boxH / 2f, 0f));
+            // Right divider / outer right wall
+            AddBox(root, "WallR" + i, mat, new Vector3(t, boxH, boxD),
+                new Vector3(startX + (i + 1) * boxW - t / 2f, boxH / 2f, 0f));
+        }
+    }
+
     [MenuItem("Shape Test/Create Solid Trapezoid")]
     public static void CreateTrapezoid()
     {
